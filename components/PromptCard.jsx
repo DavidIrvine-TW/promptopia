@@ -3,6 +3,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import copyIcon from '../public/assets/icons/copy.svg'
+import tickIcon from '../public/assets/icons/tick.svg'
+
+
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const {data: session} = useSession()
@@ -12,10 +16,10 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
   const [copy, setCopy] = useState("");
 
   const handleCopy = () => {
-    setCopy(post.prompt)
-    navigator.clipboard.writeText(post.prompt)
-    setTimeout(() => setCopy(''), 3000)
-  }
+    setCopy(post.prompt);
+    navigator.clipboard.writeText(post.prompt);
+    setTimeout(() => setCopy(false), 3000);
+  };
 
   const handleProfileClick = () => {
     console.log(post);
@@ -45,15 +49,16 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete }) => {
             </p>
           </div>
         </div>
-        <div className="copy_btn" onClick={() => {handleCopy}}>
+        <div className="copy_btn" onClick={handleCopy}>
           <Image
             width={12}
             height={12}
             src={
               copy === post.prompt
-                ? "/assets/icons/tick.svg"
-                : "/assets/icons/copy.svg"
+                ? tickIcon
+                : copyIcon
             }
+            alt={copy === post.prompt ? "tick_icon" : "copy_icon"}
           />
         </div>
       </div>
